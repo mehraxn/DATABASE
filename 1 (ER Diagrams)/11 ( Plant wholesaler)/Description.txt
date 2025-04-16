@@ -1,3 +1,6 @@
+You are requested to design a database for the management of the wholesale sale of plants, taking into account the 
+following information: 
+
 ⚫️ Different species of plants are available for sale. For each species both the Latin name and the common name
 are known, as well as a unique code through which the species is identified. For each species it is also known
 whether it is typically  suited for indoor (apartment) or outdoors (garden) and whether it is an exotic species
