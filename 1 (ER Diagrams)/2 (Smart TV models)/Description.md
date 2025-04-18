@@ -1,4 +1,4 @@
-**Smart TV models **
+**Smart TV models**
 
 
 ⚫️ An e-commerce company must keep track of all the smart TV models available at the store. Each smart TV is 
