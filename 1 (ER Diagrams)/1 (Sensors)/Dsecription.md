@@ -1,4 +1,4 @@
-**README: Sensor Temperature ER Diagram**
+Sensor Temperature ER Diagram**
 
 Below is the text and a brief explanation of how the ER diagram was derived, followed by answers to specific questions about the modeling choices.
 
