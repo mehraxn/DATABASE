@@ -1,4 +1,4 @@
-represent **a database for the management of a medical examination booking system within a Local Health Authority (ASL),** considering the following information.** considering the following information.** considering the following information. Patient Information:**
+**a database for the management of a medical examination booking system within a Local Health Authority (ASL),** 
 
 
 
