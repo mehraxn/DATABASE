@@ -24,7 +24,7 @@ WHERE City = (
 
 **Description**: This query finds all suppliers located in the same city as supplier S1. The subquery retrieves the city of S1, and the outer query returns all supplier IDs where the city matches that value.
 
-### 2. Find names of suppliers who supply red products
+### 2. Find names of suppliers who supply red products / who provide at least one red product
 
 ```sql
 SELECT SName 
@@ -40,7 +40,15 @@ WHERE SId IN (
 );
 ```
 
-**Description**: This query finds suppliers of red products. It works in three steps: first finding all red products, then identifying suppliers who supply those products, and finally retrieving those suppliers' names.
+**Description**: This query finds suppliers of red products or suppliers who provide at least one red product (these are equivalent descriptions of the same query). It works in three steps: first finding all red products, then identifying suppliers who supply those products, and finally retrieving those suppliers' names. This query can also be formulated using join operations:
+
+```sql
+SELECT DISTINCT S.SName 
+FROM S, SP, P 
+WHERE S.SId = SP.SId 
+  AND SP.PId = P.PId 
+  AND P.Color = 'Red';
+```
 
 ### 3. Find names of suppliers who do not supply product P2
 
@@ -145,7 +153,20 @@ WHERE SId IN (
 );
 ```
 
-**Description**: This query finds suppliers who provide at least one red product. The innermost query identifies all red products, the middle query finds suppliers of those products, and the outer query retrieves the supplier names.
+**Description**: This query is identical to example #2, as both are finding suppliers who provide at least one red product. The innermost query identifies all red products, the middle query finds suppliers of those products, and the outer query retrieves the supplier names.
+
+### 9. Find the codes of the suppliers whose number of employees is smaller than the maximum number of employees
+
+```sql
+SELECT SId 
+FROM S 
+WHERE #Employees < (
+    SELECT MAX(#Employees) 
+    FROM S
+);
+```
+
+**Description**: This query finds suppliers with fewer employees than the supplier with the most employees. The subquery determines the maximum employee count across all suppliers, and the outer query returns suppliers with lower values. An equivalent formulation with join is not possible for this query.
 
 ## Conclusion
 
