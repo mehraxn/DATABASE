@@ -62,6 +62,8 @@ This query answers a specific business question: "Which suppliers provide part P
 
 4. **Correlated Nature**: This is a correlated subquery because it references the outer query's table (S.SId). The database must re-evaluate the subquery for each row in the S table.
 
+   **Correlation Condition Explained**: The condition `SP.SId=S.SId` creates the correlation between the subquery and the main query. This means that for each row in table S being evaluated in the outer query, the subquery filters SP records to only those that match the current supplier's ID.
+
 5. **SELECT ***: Unlike some EXISTS patterns that use `SELECT 1`, this query uses `SELECT *`. While functionally equivalent (EXISTS only cares if rows are returned, not what data they contain), `SELECT *` is slightly less optimized.
 
 ## Query Execution Process
@@ -128,6 +130,59 @@ WHERE SId IN (
 );
 ```
 
+## When to Use Correlation vs. Non-Correlation
+
+### Correlated Subqueries
+
+A correlated subquery, like the one in our example, contains a reference to a table in the outer query. The correlation condition `SP.SId=S.SId` is what makes this a correlated subquery.
+
+**When to use correlated subqueries:**
+
+1. When you need to evaluate each row of the outer query against related records
+2. When the filtering condition depends on the current row being processed
+3. When you need to find matching (or non-matching) records between tables
+4. When implementing existence checks that are specific to each outer row
+
+**Example of correlated subquery:**
+```sql
+SELECT SName 
+FROM S 
+WHERE EXISTS (
+    SELECT * 
+    FROM SP 
+    WHERE PId='P2' AND SP.SId=S.SId
+);
+```
+
+### Non-Correlated Subqueries
+
+A non-correlated subquery has no references to the outer query and executes independently once.
+
+**Example of non-correlated subquery:**
+```sql
+SELECT SName 
+FROM S 
+WHERE SId IN (
+    SELECT SId 
+    FROM SP 
+    WHERE PId='P2'
+);
+```
+
+**When to use non-correlated subqueries:**
+
+1. When the subquery results are independent of the outer query
+2. When the subquery can be executed once and the results reused
+3. When you're filtering against a fixed set of values
+4. When the subquery is simpler to understand without correlation
+
+### Performance Considerations
+
+- Correlated subqueries execute repeatedly (once per outer row), which can be inefficient for large datasets
+- Non-correlated subqueries execute once, making them potentially more efficient
+- However, for EXISTS operations, correlated subqueries often perform well due to optimization by modern database engines
+- The choice depends on database size, indexing, and specific query needs
+
 ## When to Choose EXISTS
 
 EXISTS is particularly valuable when:
@@ -135,6 +190,7 @@ EXISTS is particularly valuable when:
 1. You need to check the existence of related records without retrieving them
 2. The subquery potentially returns many rows per outer row
 3. You want the query to stop checking as soon as a match is found
+4. You need to implement a correlated existence check between tables
 
 ## Real-World Extensions
 
