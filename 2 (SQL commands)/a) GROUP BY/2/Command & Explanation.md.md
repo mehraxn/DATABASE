@@ -59,6 +59,110 @@ Contains information about customer orders:
 | O009    | C003       | P002      | 2        | 2023-03-10 |
 | O010    | C001       | P004      | 1        | 2023-03-15 |
 
+## Alternative: Using Implicit Joins
+
+The original query uses explicit join syntax (INNER JOIN with ON clauses). Here's an alternative using implicit joins with the WHERE clause:
+
+```sql
+SELECT c.CustomerName, 
+       COUNT(o.OrderID) AS TotalOrders, 
+       SUM(o.Quantity) AS TotalQuantity, 
+       SUM(o.Quantity * p.Price) AS TotalRevenue
+FROM Orders o, Customers c, Products p
+WHERE o.CustomerID = c.CustomerID
+  AND o.ProductID = p.ProductID
+GROUP BY c.CustomerName
+HAVING SUM(o.Quantity) >= 3;
+```
+
+### Comparing Explicit vs. Implicit Joins
+
+1. **Explicit Joins (INNER JOIN)**:
+   - Uses modern SQL syntax introduced in SQL-92 standard
+   - Clearly separates join conditions from filter conditions
+   - Considered more readable for complex queries with multiple joins
+   - Makes it easier to identify the type of join (INNER, LEFT, RIGHT, FULL)
+
+2. **Implicit Joins (WHERE clause)**:
+   - Uses older style syntax (pre-SQL-92)
+   - Combines join conditions with filter conditions in the WHERE clause
+   - Can be more concise for simple queries
+   - Default join type is effectively an inner join
+   - Can lead to accidental cross joins if join conditions are forgotten
+
+Both query styles will produce identical results when properly written, but the explicit join syntax is generally preferred in modern SQL development for its clarity and reduced risk of errors.
+
+## SQL Query Execution Order
+
+Understanding the actual execution order of SQL commands is crucial for optimizing queries and troubleshooting performance issues. Here's the step-by-step order in which our query is executed by the database engine:
+
+```sql
+SELECT c.CustomerName, 
+       COUNT(o.OrderID) AS TotalOrders, 
+       SUM(o.Quantity) AS TotalQuantity, 
+       SUM(o.Quantity * p.Price) AS TotalRevenue
+FROM Orders o
+INNER JOIN Customers c ON o.CustomerID = c.CustomerID
+INNER JOIN Products p ON o.ProductID = p.ProductID
+GROUP BY c.CustomerName
+HAVING SUM(o.Quantity) >= 3;
+```
+
+### Logical Order of Execution:
+
+1. **FROM clause**: 
+   - The database identifies and processes the base tables (Orders)
+   - Execution order: `FROM Orders o`
+
+2. **JOIN operations**: 
+   - Tables are joined according to the specified conditions
+   - Execution order: 
+     - `INNER JOIN Customers c ON o.CustomerID = c.CustomerID`
+     - `INNER JOIN Products p ON o.ProductID = p.ProductID`
+   - Result: Creates a combined result set containing rows from all three tables where the join conditions match
+
+3. **WHERE clause**: 
+   - Filters the rows from the combined result set based on specified conditions
+   - Note: Our query doesn't have a WHERE clause, but if it did, it would be applied here
+   - For the implicit join version, the join conditions in the WHERE clause are applied at this step
+
+4. **GROUP BY clause**: 
+   - Groups the filtered rows based on the specified column(s)
+   - Execution order: `GROUP BY c.CustomerName`
+   - Result: Data is now grouped by customer name, preparing for aggregate calculations
+
+5. **HAVING clause**: 
+   - Filters the groups based on aggregate conditions
+   - Execution order: `HAVING SUM(o.Quantity) >= 3`
+   - Result: Only customer groups with a total quantity of 3 or more remain
+
+6. **SELECT clause**: 
+   - Computes the expressions in the SELECT list for each remaining group
+   - Execution order: 
+     - `SELECT c.CustomerName`
+     - `COUNT(o.OrderID) AS TotalOrders`
+     - `SUM(o.Quantity) AS TotalQuantity`
+     - `SUM(o.Quantity * p.Price) AS TotalRevenue`
+   - Result: Final calculations are performed for each qualifying customer group
+
+7. **ORDER BY clause**: 
+   - Sorts the result set based on specified columns
+   - Note: Our query doesn't have an ORDER BY clause, but if it did, it would be applied here
+
+8. **LIMIT/OFFSET clauses**: 
+   - Restricts the number of rows returned
+   - Note: Our query doesn't have LIMIT or OFFSET clauses, but if it did, they'd be applied here
+
+### Important Notes on Execution Order:
+
+- The actual physical execution plan may differ from this logical order as the database optimizer may rearrange operations for efficiency
+- Aggregation functions (COUNT, SUM) are calculated only after grouping is complete
+- The HAVING clause operates on grouped data, while WHERE operates on individual rows before grouping
+- Column aliases defined in the SELECT clause cannot be referenced in WHERE, GROUP BY, or HAVING clauses because these are processed before the SELECT clause
+- However, many database systems allow ORDER BY to reference SELECT aliases because ORDER BY is processed after SELECT
+
+Understanding this execution order helps explain why certain syntax rules exist. For example, you cannot filter on aggregated values in a WHERE clause since WHERE is processed before aggregation occurs - this is why the HAVING clause exists.
+
 ## Query Execution Process
 
 Let's break down how the database engine processes this query:
