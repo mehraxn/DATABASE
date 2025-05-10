@@ -4,12 +4,12 @@
 
 ### Schema:
 ```
-CUSTOMER(CustID, Name, Email, Country, JoinDate)
-PRODUCT(ProdID, Name, Category, Price, StockQuantity)
-ORDER(OrderID, CustID, OrderDate, TotalAmount, Status)
-ORDER_DETAIL(OrderID, ProdID, Quantity, UnitPrice)
-SUPPLIER(SupplierID, Name, Country, Rating)
-PRODUCT_SUPPLIER(ProdID, SupplierID, SupplyDate, Quantity)
+CUSTOMER(<u>CustID</u>, Name, Email, Country, JoinDate)
+PRODUCT(<u>ProdID</u>, Name, Category, Price, StockQuantity)
+ORDER(<u>OrderID</u>, CustID, OrderDate, TotalAmount, Status)
+ORDER_DETAIL(<u>OrderID, ProdID</u>, Quantity, UnitPrice)
+SUPPLIER(<u>SupplierID</u>, Name, Country, Rating)
+PRODUCT_SUPPLIER(<u>ProdID, SupplierID</u>, SupplyDate, Quantity)
 ```
 
 ### Scenario:
@@ -22,13 +22,13 @@ Find the names of customers who have never ordered any products supplied by supp
 
 ### Schema:
 ```
-DOCTOR(DocID, Name, Specialization, YearsExperience, DepartmentID)
-PATIENT(PatientID, Name, DateOfBirth, BloodType, InsuranceID)
-DEPARTMENT(DepartmentID, Name, Location, HeadDocID)
-APPOINTMENT(AppID, PatientID, DocID, AppDate, AppTime, Status)
-MEDICATION(MedID, Name, Category, ManufacturerID)
-PRESCRIPTION(PresID, AppID, MedID, Dosage, Duration)
-MANUFACTURER(ManufacturerID, Name, Country, Certification)
+DOCTOR(<u>DocID</u>, Name, Specialization, YearsExperience, DepartmentID)
+PATIENT(<u>PatientID</u>, Name, DateOfBirth, BloodType, InsuranceID)
+DEPARTMENT(<u>DepartmentID</u>, Name, Location, HeadDocID)
+APPOINTMENT(<u>AppID</u>, PatientID, DocID, AppDate, AppTime, Status)
+MEDICATION(<u>MedID</u>, Name, Category, ManufacturerID)
+PRESCRIPTION(<u>PresID</u>, AppID, MedID, Dosage, Duration)
+MANUFACTURER(<u>ManufacturerID</u>, Name, Country, Certification)
 ```
 
 ### Scenario:
@@ -41,13 +41,13 @@ Find the departments where no patients have been prescribed medications from man
 
 ### Schema:
 ```
-STUDENT(StudentID, Name, DoB, Major, EnrollmentYear, AdvisorID)
-PROFESSOR(ProfID, Name, Department, Rank, HireDate)
-COURSE(CourseID, Title, Department, Credits, ProfID)
-ENROLLMENT(StudentID, CourseID, Semester, Year, Grade)
-ASSIGNMENT(AssignmentID, CourseID, Title, DueDate, MaxScore)
-SUBMISSION(SubmissionID, AssignmentID, StudentID, SubmissionDate, Score)
-DEPARTMENT(DeptID, Name, Building, Budget, ChairProfID)
+STUDENT(<u>StudentID</u>, Name, DoB, Major, EnrollmentYear, AdvisorID)
+PROFESSOR(<u>ProfID</u>, Name, Department, Rank, HireDate)
+COURSE(<u>CourseID</u>, Title, Department, Credits, ProfID)
+ENROLLMENT(<u>StudentID, CourseID, Semester, Year</u>, Grade)
+ASSIGNMENT(<u>AssignmentID</u>, CourseID, Title, DueDate, MaxScore)
+SUBMISSION(<u>SubmissionID</u>, AssignmentID, StudentID, SubmissionDate, Score)
+DEPARTMENT(<u>DeptID</u>, Name, Building, Budget, ChairProfID)
 ```
 
 ### Scenario:
@@ -60,13 +60,13 @@ Find the names of professors who have never taught a course in which all enrolle
 
 ### Schema:
 ```
-USER(UserID, Username, Email, CountryCode, SubscriptionType, JoinDate)
-MOVIE(MovieID, Title, ReleaseYear, Genre, Director, Runtime, Rating)
-ACTOR(ActorID, Name, Nationality, BirthYear)
-MOVIE_ACTOR(MovieID, ActorID, Role)
-VIEWING(ViewID, UserID, MovieID, ViewDate, WatchPercentage, DeviceType)
-REVIEW(ReviewID, UserID, MovieID, Rating, ReviewText, ReviewDate)
-COUNTRY(CountryCode, Name, Region, Language)
+USER(<u>UserID</u>, Username, Email, CountryCode, SubscriptionType, JoinDate)
+MOVIE(<u>MovieID</u>, Title, ReleaseYear, Genre, Director, Runtime, Rating)
+ACTOR(<u>ActorID</u>, Name, Nationality, BirthYear)
+MOVIE_ACTOR(<u>MovieID, ActorID</u>, Role)
+VIEWING(<u>ViewID</u>, UserID, MovieID, ViewDate, WatchPercentage, DeviceType)
+REVIEW(<u>ReviewID</u>, UserID, MovieID, Rating, ReviewText, ReviewDate)
+COUNTRY(<u>CountryCode</u>, Name, Region, Language)
 ```
 
 ### Scenario:
@@ -79,14 +79,14 @@ Find the names of users who have watched at least 90% of all movies featuring ac
 
 ### Schema:
 ```
-LEARNER(LearnerID, Name, Email, Country, RegisterDate)
-INSTRUCTOR(InstructorID, Name, Biography, Rating, JoinDate)
-COURSE(CourseID, Title, Category, InstructorID, Price, DifficultyLevel)
-ENROLLMENT(EnrollmentID, LearnerID, CourseID, EnrollDate, CompletionStatus)
-MODULE(ModuleID, CourseID, Title, Duration)
-QUIZ(QuizID, ModuleID, Title, PassingScore)
-QUIZ_ATTEMPT(AttemptID, LearnerID, QuizID, AttemptDate, Score)
-CERTIFICATE(CertificateID, LearnerID, CourseID, IssueDate, ExpiryDate)
+LEARNER(<u>LearnerID</u>, Name, Email, Country, RegisterDate)
+INSTRUCTOR(<u>InstructorID</u>, Name, Biography, Rating, JoinDate)
+COURSE(<u>CourseID</u>, Title, Category, InstructorID, Price, DifficultyLevel)
+ENROLLMENT(<u>EnrollmentID</u>, LearnerID, CourseID, EnrollDate, CompletionStatus)
+MODULE(<u>ModuleID</u>, CourseID, Title, Duration)
+QUIZ(<u>QuizID</u>, ModuleID, Title, PassingScore)
+QUIZ_ATTEMPT(<u>AttemptID</u>, LearnerID, QuizID, AttemptDate, Score)
+CERTIFICATE(<u>CertificateID</u>, LearnerID, CourseID, IssueDate, ExpiryDate)
 ```
 
 ### Scenario:
