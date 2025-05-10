@@ -4,13 +4,21 @@
 
 ### Schema:
 ```
-CUSTOMER(<u>CustID</u>, Name, Email, Country, JoinDate)
-PRODUCT(<u>ProdID</u>, Name, Category, Price, StockQuantity)
-ORDER(<u>OrderID</u>, CustID, OrderDate, TotalAmount, Status)
-ORDER_DETAIL(<u>OrderID, ProdID</u>, Quantity, UnitPrice)
-SUPPLIER(<u>SupplierID</u>, Name, Country, Rating)
-PRODUCT_SUPPLIER(<u>ProdID, SupplierID</u>, SupplyDate, Quantity)
+CUSTOMER(CustID, Name, Email, Country, JoinDate)
+PRODUCT(ProdID, Name, Category, Price, StockQuantity)
+ORDER(OrderID, CustID, OrderDate, TotalAmount, Status)
+ORDER_DETAIL(OrderID, ProdID, Quantity, UnitPrice)
+SUPPLIER(SupplierID, Name, Country, Rating)
+PRODUCT_SUPPLIER(ProdID, SupplierID, SupplyDate, Quantity)
 ```
+
+Primary Keys:
+- CUSTOMER: CustID
+- PRODUCT: ProdID
+- ORDER: OrderID
+- ORDER_DETAIL: OrderID, ProdID (composite)
+- SUPPLIER: SupplierID
+- PRODUCT_SUPPLIER: ProdID, SupplierID (composite)
 
 ### Scenario:
 You are working with an online retail database that tracks customers, products, orders, and suppliers. Each product can be sourced from multiple suppliers, and supplier performance is tracked with ratings.
@@ -22,14 +30,23 @@ Find the names of customers who have never ordered any products supplied by supp
 
 ### Schema:
 ```
-DOCTOR(<u>DocID</u>, Name, Specialization, YearsExperience, DepartmentID)
-PATIENT(<u>PatientID</u>, Name, DateOfBirth, BloodType, InsuranceID)
-DEPARTMENT(<u>DepartmentID</u>, Name, Location, HeadDocID)
-APPOINTMENT(<u>AppID</u>, PatientID, DocID, AppDate, AppTime, Status)
-MEDICATION(<u>MedID</u>, Name, Category, ManufacturerID)
-PRESCRIPTION(<u>PresID</u>, AppID, MedID, Dosage, Duration)
-MANUFACTURER(<u>ManufacturerID</u>, Name, Country, Certification)
+DOCTOR(DocID, Name, Specialization, YearsExperience, DepartmentID)
+PATIENT(PatientID, Name, DateOfBirth, BloodType, InsuranceID)
+DEPARTMENT(DepartmentID, Name, Location, HeadDocID)
+APPOINTMENT(AppID, PatientID, DocID, AppDate, AppTime, Status)
+MEDICATION(MedID, Name, Category, ManufacturerID)
+PRESCRIPTION(PresID, AppID, MedID, Dosage, Duration)
+MANUFACTURER(ManufacturerID, Name, Country, Certification)
 ```
+
+Primary Keys:
+- DOCTOR: DocID
+- PATIENT: PatientID
+- DEPARTMENT: DepartmentID
+- APPOINTMENT: AppID
+- MEDICATION: MedID
+- PRESCRIPTION: PresID
+- MANUFACTURER: ManufacturerID
 
 ### Scenario:
 You are working with a hospital management system database that tracks doctors, patients, appointments, medications, and prescriptions. The hospital wants to analyze prescription patterns and doctor-patient interactions.
@@ -41,14 +58,23 @@ Find the departments where no patients have been prescribed medications from man
 
 ### Schema:
 ```
-STUDENT(<u>StudentID</u>, Name, DoB, Major, EnrollmentYear, AdvisorID)
-PROFESSOR(<u>ProfID</u>, Name, Department, Rank, HireDate)
-COURSE(<u>CourseID</u>, Title, Department, Credits, ProfID)
-ENROLLMENT(<u>StudentID, CourseID, Semester, Year</u>, Grade)
-ASSIGNMENT(<u>AssignmentID</u>, CourseID, Title, DueDate, MaxScore)
-SUBMISSION(<u>SubmissionID</u>, AssignmentID, StudentID, SubmissionDate, Score)
-DEPARTMENT(<u>DeptID</u>, Name, Building, Budget, ChairProfID)
+STUDENT(StudentID, Name, DoB, Major, EnrollmentYear, AdvisorID)
+PROFESSOR(ProfID, Name, Department, Rank, HireDate)
+COURSE(CourseID, Title, Department, Credits, ProfID)
+ENROLLMENT(StudentID, CourseID, Semester, Year, Grade)
+ASSIGNMENT(AssignmentID, CourseID, Title, DueDate, MaxScore)
+SUBMISSION(SubmissionID, AssignmentID, StudentID, SubmissionDate, Score)
+DEPARTMENT(DeptID, Name, Building, Budget, ChairProfID)
 ```
+
+Primary Keys:
+- STUDENT: StudentID
+- PROFESSOR: ProfID
+- COURSE: CourseID
+- ENROLLMENT: StudentID, CourseID, Semester, Year (composite)
+- ASSIGNMENT: AssignmentID
+- SUBMISSION: SubmissionID
+- DEPARTMENT: DeptID
 
 ### Scenario:
 You are working with a university database that tracks students, professors, courses, enrollments, assignments, and submissions. The university is conducting an academic audit.
@@ -60,14 +86,23 @@ Find the names of professors who have never taught a course in which all enrolle
 
 ### Schema:
 ```
-USER(<u>UserID</u>, Username, Email, CountryCode, SubscriptionType, JoinDate)
-MOVIE(<u>MovieID</u>, Title, ReleaseYear, Genre, Director, Runtime, Rating)
-ACTOR(<u>ActorID</u>, Name, Nationality, BirthYear)
-MOVIE_ACTOR(<u>MovieID, ActorID</u>, Role)
-VIEWING(<u>ViewID</u>, UserID, MovieID, ViewDate, WatchPercentage, DeviceType)
-REVIEW(<u>ReviewID</u>, UserID, MovieID, Rating, ReviewText, ReviewDate)
-COUNTRY(<u>CountryCode</u>, Name, Region, Language)
+USER(UserID, Username, Email, CountryCode, SubscriptionType, JoinDate)
+MOVIE(MovieID, Title, ReleaseYear, Genre, Director, Runtime, Rating)
+ACTOR(ActorID, Name, Nationality, BirthYear)
+MOVIE_ACTOR(MovieID, ActorID, Role)
+VIEWING(ViewID, UserID, MovieID, ViewDate, WatchPercentage, DeviceType)
+REVIEW(ReviewID, UserID, MovieID, Rating, ReviewText, ReviewDate)
+COUNTRY(CountryCode, Name, Region, Language)
 ```
+
+Primary Keys:
+- USER: UserID
+- MOVIE: MovieID
+- ACTOR: ActorID
+- MOVIE_ACTOR: MovieID, ActorID (composite)
+- VIEWING: ViewID
+- REVIEW: ReviewID
+- COUNTRY: CountryCode
 
 ### Scenario:
 You are working with a movie streaming platform database that tracks users, movies, actors, viewing history, and reviews. The platform is analyzing user engagement patterns.
